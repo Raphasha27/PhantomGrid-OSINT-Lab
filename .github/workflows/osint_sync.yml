@@ -1,0 +1,21 @@
+name: Nightly Intelligence Sync
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/experimental/v1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate Fake Intel Dump
+        run: |
+          echo '{"target_domains_scanned": '', "intel_flagged": true}' > osint_dump.json
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add osint_dump.json
+          git commit -m "security: nightly OSINT sync simulation" || echo "No changes"
+          git push
