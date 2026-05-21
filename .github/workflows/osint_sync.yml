@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/experimental/v1'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Generate Fake Intel Dump
         run: |
           echo '{"target_domains_scanned": '', "intel_flagged": true}' > osint_dump.json
