@@ -1,19 +1,20 @@
-name: CI Pipeline
-
+name: PhantomGrid OSINT CI
 on:
   push:
-    branches: ["main", "master"]
-  pull_request:
-    branches: ["main", "master"]
-
+    branches: [master, main, 'experimental/v1']
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Scan Repository Scaffolding
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Smoke Test
         run: |
-          echo "Scanning scaffolding integrity..."
-          ls -la
+          uvicorn api.main:app --host 0.0.0.0 --port 8000 &
+          sleep 3
+          curl -f http://localhost:8000/health
+          curl -f http://localhost:8000/api/v1/intel
+          curl -f http://localhost:8000/api/v1/alerts
