@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "phantomgrid-osint-lab"
+version = "1.0.0"
+description = "Autonomous OSINT threat intelligence and cyber threat aggregation simulation API"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Koketso Raphasha", email = "402106633@my.richfield.ac.za"},
+]
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.29.0",
+    "pydantic>=2.0.0",
+]
+keywords = ["osint", "cybersecurity", "threat-intelligence", "fastapi", "simulation"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "httpx>=0.27.0",
+    "ruff>=0.3.0",
+    "pre-commit>=3.5.0",
+]
