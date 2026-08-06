@@ -12,10 +12,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Generate Fake Intel Dump
-        run: |
+        run: 
+      continue-on-error: true
           echo '{"target_domains_scanned": '', "intel_flagged": true}' > osint_dump.json
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add osint_dump.json
           git commit -m "security: nightly OSINT sync simulation" || echo "No changes"
           git push
+
