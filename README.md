@@ -128,3 +128,14 @@ MIT License. See [LICENSE](LICENSE) for details.
 ---
 
 © 2026 **Kirov Dynamics Technology** | Built by **Koketso Raphasha (Raphasha27)**
+
+## Contributors
+
+Built and maintained by the **Kirov Dynamics** team:
+
+- [Raphasha27](https://github.com/Raphasha27) — Project lead & maintainer
+- [KirovDynamicsTechnology](https://github.com/KirovDynamicsTechnology) — Kirov Dynamics (company group)
+- [DkMash](https://github.com/DkMash) — Teammate & co-developer
+- [LindiweMotaung](https://github.com/LindiweMotaung) — Collaborator
+
+We build together — credit goes to the whole team, not one person.
