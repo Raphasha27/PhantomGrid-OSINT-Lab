@@ -1,5 +1,8 @@
 # PhantomGrid-OSINT-Lab
 
+> **Live Now:** [https://phantomgrid-osint-lab.vercel.app](https://phantomgrid-osint-lab.vercel.app)
+> Run it instantly — no setup needed. Free-tier hosted build by Kirov Dynamics.
+
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white&style=for-the-badge)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?logo=fastapi&logoColor=white&style=for-the-badge)](https://fastapi.tiangolo.com)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=for-the-badge)](https://docker.com)
@@ -129,6 +132,7 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 © 2026 **Kirov Dynamics Technology** | Built by **Koketso Raphasha (Raphasha27)**
 
+<<<<<<< Updated upstream
 ## Contributors
 
 Built and maintained by the **Kirov Dynamics** team:
@@ -139,3 +143,5 @@ Built and maintained by the **Kirov Dynamics** team:
 - [LindiweMotaung](https://github.com/LindiweMotaung) — Collaborator
 
 We build together — credit goes to the whole team, not one person.
+=======
+>>>>>>> Stashed changes
