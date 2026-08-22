@@ -1,34 +1,68 @@
-# PhantomGrid-OSINT-Lab
+# PhantomGrid OSINT Lab
 
-> **Live Now:** [https://phantomgrid-osint-lab.vercel.app](https://phantomgrid-osint-lab.vercel.app)
-> Run it instantly — no setup needed. Free-tier hosted build by Kirov Dynamics.
+### Open Source Intelligence Reconnaissance & IoC Tracking Platform
 
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white&style=for-the-badge)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-005571?logo=fastapi&logoColor=white&style=for-the-badge)](https://fastapi.tiangolo.com)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=for-the-badge)](https://docker.com)
-[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
-[![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-261230?style=for-the-badge)](https://github.com/astral-sh/ruff)
-[![Branch](https://img.shields.io/badge/Branch-experimental%2Fv1-00bfff?style=for-the-badge)](#)
-[![Safety](https://img.shields.io/badge/Protocol-Isolated%20Lab-8957e5?style=for-the-badge)](#)
+<div align="center">
 
-Autonomous cyber intelligence and OSINT threat aggregation engine. PhantomGrid-OSINT-Lab is a FastAPI-based API that simulates Open Source Intelligence (OSINT) scraping, threat actor tracking, IoC (Indicators of Compromise) generation, and real-time cyber alerting — all with synthetic data in an isolated lab environment.
+[![CI](https://github.com/Raphasha27/PhantomGrid-OSINT-Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/Raphasha27/PhantomGrid-OSINT-Lab/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat-square&logo=fastapi&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-a78bfa?style=flat-square)
+
+</div>
 
 ---
 
 ## Overview
 
-PhantomGrid-OSINT-Lab models the workflows of a cyber threat intelligence platform, providing endpoints for domain scanning, threat actor profiling, alert management, and IoC feed generation. The system operates entirely on synthetic data, making it safe for development, demonstration, and educational use.
+PhantomGrid OSINT Lab is an **autonomous cyber intelligence and threat aggregation engine** built with FastAPI. It simulates Open Source Intelligence (OSINT) scraping, threat actor tracking, IoC (Indicators of Compromise) generation, and real-time cyber alerting — all with synthetic data in an isolated lab environment.
+
+> **Safety Protocol**: Isolated lab environment. No production database connections, no live DNS routing, no real threat data.
+
+---
 
 ## Features
 
-- **Automated Threat Scanning** — Simulate OSINT scans against target domains with configurable depth and keyword matching
-- **Threat Actor Intelligence** — Profile and track threat actors (APT-28, Lazarus Group, etc.) with severity and attack vector analysis
-- **Critical Alerting** — Real-time critical alert feed for high-severity threats (severity >= 7)
-- **IOC Feed** — Generate and export synthetic Indicators of Compromise (IPs, TTPs) in a standardized feed format
-- **Intel Repository** — In-memory intel store with search, filter, and severity-based sorting
-- **CORS Enabled** — Ready for frontend dashboard integration
+- [x] IoC Extraction — Automated Indicators of Compromise generation (IPs, TTPs, domains)
+- [x] Domain/IP Correlation — Cross-reference IOCs across multiple source domains
+- [x] Threat Actor Profiling — Track APT groups with severity and attack vector analysis
+- [x] Dark Web Monitoring Stub — Simulated .onion source aggregation
+- [x] Feed Aggregation — Standardised IoC feed export for SIEM integration
+- [x] Real-time Alerting — Critical alert feed for high-severity threats (severity >= 7)
+- [x] API-First Design — Full REST API with OpenAPI documentation
+- [x] CORS Enabled — Ready for frontend dashboard integration
+
+---
+
+## Architecture
+
+```
+┌─────────────────┐
+│  Dashboard UI   │
+│  (Static/SPA)   │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│   FastAPI       │
+│   :8000         │
+│  ┌────────────┐ │
+│  │ OSINT      │ │
+│  │ Engine     │ │
+│  └─────┬──────┘ │
+└────────┼────────┘
+         │
+    ┌────▼────────────┐
+    │  In-Memory Store │
+    │  (Synthetic Data)│
+    └─────────────────┘
+```
+
+---
 
 ## Quick Start
+
+### Using pip + uvicorn
 
 ```bash
 git clone https://github.com/Raphasha27/PhantomGrid-OSINT-Lab.git
@@ -38,12 +72,16 @@ pip install -r requirements.txt
 uvicorn api.main:app --reload --port 8000
 ```
 
-Or with Docker:
+### Using Docker
 
 ```bash
 docker build -t phantomgrid-osint .
 docker run -p 8000:8000 phantomgrid-osint
 ```
+
+API docs available at `http://localhost:8000/docs`
+
+---
 
 ## API Endpoints
 
@@ -58,7 +96,7 @@ docker run -p 8000:8000 phantomgrid-osint
 
 | Method | Path | Description |
 |--------|------|-------------|
-| POST | `/api/v1/scan` | Execute an OSINT scan |
+| POST | `/api/v1/scan` | Execute an OSINT scan against target domains |
 | GET | `/api/v1/intel` | List intel entries (filtered by severity) |
 | GET | `/api/v1/intel/{intel_id}` | Get specific intel entry |
 | GET | `/api/v1/actors` | Threat actor profiling and statistics |
@@ -75,27 +113,21 @@ docker run -p 8000:8000 phantomgrid-osint
 }
 ```
 
-### Scan Response
+---
 
-```json
-{
-  "scan_id": "a1b2c3d4",
-  "target": "surface_web",
-  "new_intel_entries": 5,
-  "scan_duration_ms": 2340,
-  "results": [
-    {
-      "id": "e5f6g7h8",
-      "source_domain": "darkforum-alpha.onion",
-      "threat_actor": "APT-28",
-      "attack_vector": "Phishing",
-      "severity": 8,
-      "ioc": "192.168.1.100",
-      "ttps": "T1566"
-    }
-  ]
-}
-```
+## Tech Stack
+
+| Category | Technology |
+|----------|------------|
+| Language | Python 3.11+ |
+| Framework | FastAPI |
+| HTTP Client | aiohttp |
+| Validation | Pydantic |
+| Testing | pytest |
+| Linting | ruff |
+| Container | Docker |
+
+---
 
 ## Project Structure
 
@@ -104,12 +136,20 @@ PhantomGrid-OSINT-Lab/
 ├── api/
 │   └── main.py           # FastAPI application with OSINT engine
 ├── tests/                # Unit tests
+├── docs/                 # Documentation
+├── index.html            # Static frontend
 ├── Dockerfile            # Container build
 ├── .dockerignore         # Docker build exclusions
 ├── requirements.txt      # Python dependencies
 ├── pyproject.toml        # Project metadata and build config
-└── .pre-commit-config.yaml
+├── .pre-commit-config.yaml
+├── CONTRIBUTING.md
+├── SECURITY.md
+├── CODE_OF_CONDUCT.md
+└── LICENSE
 ```
+
+---
 
 ## Development
 
@@ -120,28 +160,20 @@ ruff check api/
 ruff format api/ --check
 ```
 
+---
+
+## Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) and open an issue before submitting a PR.
+
+---
+
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
-**Safety Protocol**: This repository is an isolated lab environment. No production database connections, no live DNS routing, and no real threat data. Default branch: `experimental/v1`.
-
----
-
-© 2026 **Kirov Dynamics Technology** | Built by **Koketso Raphasha (Raphasha27)**
-
-<<<<<<< Updated upstream
-## Contributors
-
-Built and maintained by the **Kirov Dynamics** team:
-
-- [Raphasha27](https://github.com/Raphasha27) — Project lead & maintainer
-- [KirovDynamicsTechnology](https://github.com/KirovDynamicsTechnology) — Kirov Dynamics (company group)
-- [DkMash](https://github.com/DkMash) — Teammate & co-developer
-- [LindiweMotaung](https://github.com/LindiweMotaung) — Collaborator
-
-We build together — credit goes to the whole team, not one person.
-=======
->>>>>>> Stashed changes
+<div align="center">
+Part of the <a href="https://github.com/Raphasha27">Kirov Dynamics Technology</a> portfolio
+</div>
