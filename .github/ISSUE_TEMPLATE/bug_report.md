@@ -1,24 +1,30 @@
 ---
 name: Bug Report
-about: Create a report to help us improve PhantomGrid-OSINT-Lab
-title: "[BUG] "
-labels: bug
-assignees: Raphasha27
-
+about: Report a bug to help us improve
+title: '[BUG] '
+labels: bug, triage
+assignees: ''
 ---
 
-**Describe the Bug**
+**Describe the bug**
 A clear and concise description of what the bug is.
 
 **To Reproduce**
-Steps to reproduce the behavior, including API request/response.
+Steps to reproduce the behavior:
+1. 
+2. 
+3. 
 
-**Expected Behavior**
-A clear and concise description of what you expected.
+**Expected behavior**
+A clear and concise description of what you expected to happen.
 
-**Environment:**
-- Python version: [e.g. 3.11]
-- OS: [e.g. Windows 11, Ubuntu 22.04]
+**Screenshots**
+If applicable, add screenshots to help explain your problem.
 
-**Additional Context**
+**Environment**
+- OS: [e.g. Ubuntu 22.04]
+- Python/Node/Java version: [e.g. 3.11]
+- Browser (if applicable): [e.g. Chrome 120]
+
+**Additional context**
 Add any other context about the problem here.
