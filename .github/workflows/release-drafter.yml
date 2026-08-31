@@ -2,7 +2,7 @@ name: Release Drafter
 
 on:
   push:
-    branches: [main]
+    branches: [experimental/v1]
   pull_request:
     types: [opened, reopened, synchronize]
   workflow_dispatch:
