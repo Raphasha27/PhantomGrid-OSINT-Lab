@@ -33,11 +33,14 @@ class TestIntelStoreSeed:
 class TestScanEndpoint:
     def test_scan_adds_entries_to_store(self):
         before = len(intel_store)
-        resp = client.post("/api/v1/scan", json={
-            "target_domain": "test.io",
-            "depth": 2,
-            "keywords": ["malware"],
-        })
+        resp = client.post(
+            "/api/v1/scan",
+            json={
+                "target_domain": "test.io",
+                "depth": 2,
+                "keywords": ["malware"],
+            },
+        )
         assert resp.status_code == 200
         data = resp.json()
         assert data["new_intel_entries"] >= 2
@@ -186,6 +189,7 @@ class TestRootAndHealth:
         resp = client.get("/health")
         ts = resp.json()["timestamp"]
         from datetime import datetime
+
         dt = datetime.fromisoformat(ts)
         assert isinstance(dt, datetime)
 

@@ -54,9 +54,17 @@ class TestGenerateIntel:
     def test_returns_dict_with_all_keys(self):
         entry = generate_intel()
         expected_keys = {
-            "id", "source_domain", "threat_actor", "attack_vector",
-            "target_sector", "severity", "confidence_score", "ioc",
-            "ttps", "discovered_at", "status",
+            "id",
+            "source_domain",
+            "threat_actor",
+            "attack_vector",
+            "target_sector",
+            "severity",
+            "confidence_score",
+            "ioc",
+            "ttps",
+            "discovered_at",
+            "status",
         }
         assert set(entry.keys()) == expected_keys
 

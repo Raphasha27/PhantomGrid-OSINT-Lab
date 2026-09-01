@@ -24,11 +24,10 @@ def test_health():
 
 
 def test_scan():
-    resp = client.post("/api/v1/scan", json={
-        "target_domain": "test",
-        "depth": 1,
-        "keywords": ["breach"]
-    })
+    resp = client.post(
+        "/api/v1/scan",
+        json={"target_domain": "test", "depth": 1, "keywords": ["breach"]},
+    )
     assert resp.status_code == 200
     data = resp.json()
     assert "scan_id" in data
