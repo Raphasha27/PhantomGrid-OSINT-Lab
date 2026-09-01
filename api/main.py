@@ -1,9 +1,10 @@
+import random
+import uuid
+from datetime import datetime, timedelta
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import random, uuid
-from datetime import datetime, timedelta
-from typing import Optional, List
 
 app = FastAPI(
     title="PhantomGrid OSINT API",
@@ -87,15 +88,15 @@ TARGETS = [
 
 
 class ScanRequest(BaseModel):
-    target_domain: Optional[str] = "surface_web"
-    depth: Optional[int] = 1
-    keywords: Optional[List[str]] = ["breach", "exploit", "credential"]
+    target_domain: str | None = "surface_web"
+    depth: int | None = 1
+    keywords: list[str] | None = ["breach", "exploit", "credential"]
 
 
 class AlertRequest(BaseModel):
-    actor: Optional[str] = None
-    vector: Optional[str] = None
-    severity_min: Optional[int] = 3
+    actor: str | None = None
+    vector: str | None = None
+    severity_min: int | None = 3
 
 
 def generate_intel():

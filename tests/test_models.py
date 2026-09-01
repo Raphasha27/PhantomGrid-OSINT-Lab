@@ -3,16 +3,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-import uuid
 from datetime import datetime, timedelta
+
 from api.main import (
-    ScanRequest,
-    AlertRequest,
-    generate_intel,
-    DOMAINS,
-    THREAT_ACTORS,
     ATTACK_VECTORS,
+    DOMAINS,
     TARGETS,
+    THREAT_ACTORS,
+    AlertRequest,
+    ScanRequest,
+    generate_intel,
 )
 
 
