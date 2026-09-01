@@ -7,8 +7,35 @@ from typing import Optional, List
 
 app = FastAPI(
     title="PhantomGrid OSINT API",
-    description="Autonomous Open Source Intelligence scraping and cyber threat aggregation engine.",
-    version="1.0.0"
+    description=(
+        "Autonomous Open Source Intelligence (OSINT) scraping and cyber threat aggregation engine.\n\n"
+        "## Features\n"
+        "- **Threat Scanning** — Scan domains for threat intelligence indicators\n"
+        "- **Intel Feed** — Browse and filter collected intelligence entries\n"
+        "- **Actor Profiling** — Aggregate threat actor activity and attack vectors\n"
+        "- **Alert System** — High-severity alert aggregation with severity thresholds\n"
+        "- **IOC Feed** — Indicator of Compromise feed with TTP mappings\n\n"
+        "## Data Model\n"
+        "Each intel entry includes: threat actor, attack vector, target sector, severity (1-10), "
+        "confidence score, IOCs, and MITRE ATT&CK TTPs."
+    ),
+    version="1.0.0",
+    contact={
+        "name": "PhantomGrid OSINT Support",
+        "url": "https://github.com/Raphasha27/PhantomGrid-OSINT-Lab",
+    },
+    license_info={
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT",
+    },
+    openapi_tags=[
+        {"name": "Scan", "description": "Initiate OSINT scans against target domains"},
+        {"name": "Intel", "description": "Browse and filter collected threat intelligence entries"},
+        {"name": "Actors", "description": "Threat actor profiling and aggregation"},
+        {"name": "Alerts", "description": "High-severity threat alert feeds"},
+        {"name": "IOC", "description": "Indicator of Compromise feeds with TTP mappings"},
+        {"name": "Health", "description": "Service health checks"},
+    ],
 )
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 

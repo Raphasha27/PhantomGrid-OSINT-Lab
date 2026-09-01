@@ -1,0 +1,327 @@
+openapi: 3.0.3
+info:
+  title: PhantomGrid OSINT API
+  description: |
+    Autonomous Open Source Intelligence (OSINT) scraping and cyber threat aggregation engine.
+  version: 1.0.0
+  contact:
+    name: PhantomGrid OSINT Support
+    url: https://github.com/Raphasha27/PhantomGrid-OSINT-Lab
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+
+tags:
+  - name: Scan
+    description: Initiate OSINT scans against target domains
+  - name: Intel
+    description: Browse and filter collected threat intelligence entries
+  - name: Actors
+    description: Threat actor profiling and aggregation
+  - name: Alerts
+    description: High-severity threat alert feeds
+  - name: IOC
+    description: Indicator of Compromise feeds with TTP mappings
+  - name: Health
+    description: Service health checks
+
+paths:
+  /:
+    get:
+      tags: [Health]
+      summary: Platform status
+      operationId: rootInfo
+      responses:
+        "200":
+          description: Platform status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ONLINE
+                  platform:
+                    type: string
+                    example: PhantomGrid-OSINT
+                  intel_entries:
+                    type: integer
+                    example: 15
+
+  /health:
+    get:
+      tags: [Health]
+      summary: Health check
+      operationId: healthCheck
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: healthy
+                  timestamp:
+                    type: string
+                    format: date-time
+
+  /api/v1/scan:
+    post:
+      tags: [Scan]
+      summary: Initiate OSINT scan
+      description: Scan a target domain for threat intelligence indicators.
+      operationId: scanTarget
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScanRequest"
+      responses:
+        "200":
+          description: Scan results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  scan_id:
+                    type: string
+                    example: a1b2c3d4
+                  target:
+                    type: string
+                  depth:
+                    type: integer
+                  keywords_matched:
+                    type: array
+                    items:
+                      type: string
+                  new_intel_entries:
+                    type: integer
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/IntelEntry"
+                  scan_duration_ms:
+                    type: integer
+
+  /api/v1/intel:
+    get:
+      tags: [Intel]
+      summary: List intelligence entries
+      description: Browse collected intel entries, sorted by severity.
+      operationId: listIntel
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+          description: Max entries to return
+        - name: severity_min
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+            maximum: 10
+          description: Minimum severity threshold
+      responses:
+        "200":
+          description: Intel entries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  entries:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/IntelEntry"
+
+  /api/v1/intel/{intel_id}:
+    get:
+      tags: [Intel]
+      summary: Get intel entry by ID
+      description: Retrieve a single intel entry by its ID.
+      operationId: getIntel
+      parameters:
+        - name: intel_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Intel entry ID
+      responses:
+        "200":
+          description: Intel entry details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IntelEntry"
+        "404":
+          description: Intel ID not found
+
+  /api/v1/actors:
+    get:
+      tags: [Actors]
+      summary: List threat actors
+      description: Aggregate threat actor activity with average severity and attack vectors.
+      operationId: listActors
+      responses:
+        "200":
+          description: Threat actor profiles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  threat_actors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        actor:
+                          type: string
+                        count:
+                          type: integer
+                        avg_severity:
+                          type: number
+                        vectors:
+                          type: array
+                          items:
+                            type: string
+
+  /api/v1/alerts:
+    get:
+      tags: [Alerts]
+      summary: Get critical alerts
+      description: Retrieve high-severity threat alerts.
+      operationId: getAlerts
+      parameters:
+        - name: severity_min
+          in: query
+          schema:
+            type: integer
+            default: 7
+            minimum: 1
+            maximum: 10
+          description: Minimum severity for alerts
+      responses:
+        "200":
+          description: Critical alerts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  critical_alerts:
+                    type: integer
+                  alerts:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/IntelEntry"
+
+  /api/v1/ioc:
+    get:
+      tags: [IOC]
+      summary: IOC feed
+      description: Indicator of Compromise feed with MITRE ATT&CK TTP mappings.
+      operationId: iocFeed
+      responses:
+        "200":
+          description: IOC feed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ioc_count:
+                    type: integer
+                  feed:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ioc:
+                          type: string
+                          example: 192.168.1.100
+                        type:
+                          type: string
+                          example: IPv4
+                        severity:
+                          type: integer
+                        ttps:
+                          type: string
+                          example: T1566
+
+components:
+  schemas:
+    ScanRequest:
+      type: object
+      properties:
+        target_domain:
+          type: string
+          default: surface_web
+          description: Domain to scan
+        depth:
+          type: integer
+          default: 1
+          description: Scan depth (1-5)
+        keywords:
+          type: array
+          items:
+            type: string
+          default: ["breach", "exploit", "credential"]
+          description: Keywords to search for
+
+    IntelEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          example: a1b2c3d4
+        source_domain:
+          type: string
+          example: pastebin-mirror.net
+        threat_actor:
+          type: string
+          example: APT-28
+        attack_vector:
+          type: string
+          example: Phishing
+        target_sector:
+          type: string
+          example: Financial Sector
+        severity:
+          type: integer
+          minimum: 1
+          maximum: 10
+          example: 8
+        confidence_score:
+          type: number
+          format: float
+          example: 0.87
+        ioc:
+          type: string
+          example: 192.168.1.100
+        ttps:
+          type: string
+          example: T1566
+        discovered_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [ACTIVE, MONITORING, CONTAINED, ESCALATED]
+          example: ACTIVE
